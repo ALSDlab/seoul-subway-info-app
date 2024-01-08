@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:seoul_subway_info_app/core/result.dart';
+import 'package:seoul_subway_info_app/data/subway_model.dart';
 import 'package:seoul_subway_info_app/ui/main_state.dart';
 
 import '../data/subway_repository.dart';
@@ -18,10 +20,21 @@ class SubwayViewModel extends ChangeNotifier {
       isLoading: true,
     );
     notifyListeners();
-    _state = state.copyWith(
-      isLoading: false,
-      subwayInfoLists: await _repository.getSubwayInfo(stationName),
-    );
+
+    final result = await _repository.getSubwayInfo(stationName);
+
+    switch (result) {
+      case Success<List<SubwayArrivalInfo>>():
+        _state = state.copyWith(
+          isLoading: false,
+          subwayInfoLists: result.data,
+        );
+      case Error<List<SubwayArrivalInfo>>():
+        _state = state.copyWith(
+          isLoading: false,
+          subwayInfoLists: [],
+        );
+    }
     notifyListeners();
   }
 }
