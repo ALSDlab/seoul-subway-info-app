@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seoul_subway_info_app/ui/main_screen.dart';
+import 'package:seoul_subway_info_app/ui/main_view_model.dart';
+
+import 'data/subway_repository_impl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MainScreen(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: ChangeNotifierProvider(
+          create: (_) =>
+              SubwayViewModel(repository: SubwayInfoRepositoryImpl()),
+          child: const MainScreen(),
+        ));
   }
 }
-
