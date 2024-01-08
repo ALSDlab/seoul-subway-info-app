@@ -12,6 +12,7 @@ class SubwayInfoRepositoryImpl implements SubwayInfoRepository {
     if (infoResult == null) {
       return [];
     }
-    return model.map((e) => infoResult.add(e));
+    model.map((e) => infoResult.add(e));
+    return infoResult;
   }
 }
