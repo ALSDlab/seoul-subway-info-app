@@ -13,13 +13,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _textController = TextEditingController();
-  final subwayRepository = SubwayInfoRepositoryImpl();
 
   @override
   void dispose() {
     _textController.dispose();
     super.dispose();
-
   }
 
   @override
@@ -36,15 +34,21 @@ class _MainScreenState extends State<MainScreen> {
             controller: _textController,
             decoration: InputDecoration(
               hintText: '역 이름을 입력해주세요',
-            suffixIcon: Icon(Icons.search)
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  mainViewModel.searchSubwayInfo(_textController.text);
+                },
+              ),
             ),
-            onTap: (){
-              mainViewModel.searchSubwayInfo(_textController.text);
-            },
-
           ),
+          state.isLoading ? Center(child: CircularProgressIndicator(),)
+          :
           Expanded(
-              child: ListView(children: state.subwayInfoLists.map((e) => Text(e.toString())).toList())),
+              child: ListView(
+                  children: state.subwayInfoLists
+                      .map((e) => Text(e.toString()))
+                      .toList())),
           // ListView.builder(itemBuilder: (context, index)  {
           //   final subwayList = await subwayRepository.getSubwayInfo(_textController.text);
           //   return ListTile(

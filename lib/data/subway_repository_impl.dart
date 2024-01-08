@@ -8,8 +8,7 @@ class SubwayInfoRepositoryImpl implements SubwayInfoRepository {
   @override
   Future<List<SubwayArrivalInfo>> getSubwayInfo(String stationName) async{
     final model = await _api.getSubwayArrivalInfoList(stationName);
-    List<SubwayArrivalInfo> infoResult = [];
-    model.map((e) => infoResult.add(e));
+    final infoResult = model.map((e) => SubwayArrivalInfo.fromJson(e)).toList();
     return infoResult;
   }
 }

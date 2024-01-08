@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:seoul_subway_info_app/ui/main_screen.dart';
 import 'package:seoul_subway_info_app/ui/main_view_model.dart';
 
-import 'data/subway_repository_impl.dart';
+import 'di/di_setup.dart';
 
 void main() {
+  diSetup();
   runApp(const MyApp());
 }
 
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: ChangeNotifierProvider(
-          create: (_) =>
-              SubwayViewModel(repository: SubwayInfoRepositoryImpl()),
+          create: (_) => getIt<SubwayViewModel>(),
           child: const MainScreen(),
         ));
   }
